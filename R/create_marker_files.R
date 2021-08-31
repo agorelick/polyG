@@ -1,9 +1,22 @@
 ##' create_marker_files
 ##' @export
-create_marker_files <- function(sample_table_file, peak_table_file, markers_file, mixes_file, sizing_artifacts_file=NA, pdir='.', hcut=0.015, thres=20, intensityfilter=0.1) {
+create_marker_files <- function(sample_table_file, peak_table_file, markers_file, mixes_file, sizing_artifacts_file=NA, pdir='.', thres=20, intensityfilter=0.1, genemapper=F, overwrite=F) {
+   
+    ## define the data/ directory expected to be generated. 
+    data_dir <- file.path(pdir,"data")
+    create_dir_check_if_already_exists(data_dir,overwrite)
 
+    ## define create_marker_file_info directory to store information for troubleshooting
+    marker_file_info_dir <- file.path(pdir,"create_marker_file_info")
+    create_dir_check_if_already_exists(marker_file_info_dir,overwrite)
 
-    
+    ## Check if the expected input files exist. If not, prompt user to fix and throw error.
+    error_if_file_not_exist(sample_table_file)
+    error_if_file_not_exist(peak_table_file)
+    error_if_file_not_exist(markers_file)
+    error_if_file_not_exist(mixes_file)
+    if(!is.na(sizing_artifacts_file)) error_if_file_not_exist(sizing_artifacts_file)
+
     # read all required files 
 	samp <- read.table(sample_table_file,sep=",",header=T,stringsAsFactors=F)
 	peak <- read.table(peak_table_file,sep=",",header=T,stringsAsFactors=F)
@@ -11,7 +24,7 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
 	mixes <- suppressWarnings(read.table(mixes_file,sep="\t",header=F,stringsAsFactors=F))
 
     # remove samples with failed sizing
-    failedsize <- samp$Sample.File[which(is.na(samp$SQ))]
+    failedsize <- samp$Sample.File.Name[which(is.na(samp$SQ))]
     if (length(which(is.na(samp$SQ)))!=0) samp <- samp[-which(is.na(samp$SQ)),]
 
     # sizing artifacts file
@@ -26,26 +39,23 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
     failedpcr <- list()
 
     # DEFINE SAMPLES IN PEAK FILE, i.e. for each sample, determine which rows in peak file correspond to its beginning and end
-    samples <- peak$Sample.File[1]
+    samples <- peak$Sample.File.Name[1]
     begin <- 1
     end <- 0
-    t <- peak$Sample.File[1]
+    t <- peak$Sample.File.Name[1]
 
     rec.samples <- for (i in 2:dim(peak)[1]){
-        if (peak$Sample.File[i]!=t) {
+        if (peak$Sample.File.Name[i]!=t) {
             end <- c(end,i-1)
             begin <- c(begin,i)
-            t <- peak$Sample.File[i]
+            t <- peak$Sample.File.Name[i]
             samples <- c(samples,t)
     }}
 
-	#browser()
     end <- c(end[-1],dim(peak)[1])
 
-    if (length(which(samples==samp$Sample.File)) != dim(samp)[1]){
-        cat ("SAMPLES DON'T MATCH UP\n")
-    } else{
-        cat("SAMPLES MATCH\n")
+    if (length(which(samples==samp$Sample.File.Name)) != dim(samp)[1]){
+        stop("SAMPLES DON'T MATCH UP")
     }
 
     # extract sample and marker information
@@ -54,7 +64,6 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
     markerenu <- list()
     reslist <- list()
 
-	#browser()
     ### k loops through markers
     ### j loops through patients
 
@@ -67,7 +76,11 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
         dye <- mixes[pmatch(marker,mixes[,1]),3]
 
         # select names and peak file positions for samples containing that marker
-        select <- grep(mix,samp$Sample.File)
+        if(genemapper==F) {
+            select <- grep(mix,samp$Sample.Name) 
+        } else {
+            select <- grep(paste(mix,"\\.",sep=""),samp$Sample.Name)
+        }
         ssamples <- samp$Sample.Name[select]
         sbegin <- begin[select]
         send <- end[select]
@@ -108,7 +121,11 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
 
                     fsizes[[i]] <- d2$Size
                     fheights[[i]] <- d2$Height
-                    fareas[[i]] <- d2$Area.Data.Point.
+                    if(genemapper==F) {
+                        fareas[[i]] <- d2$Area.Data.Point.
+                    } else {
+                        fareas[[i]] <- d2$Area
+                    }
                 } else{
                     fsizes[i] <- NA
                     fheights[i] <- NA
@@ -124,8 +141,11 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
                 samatch <- grep(paste("^",marker,"$",sep=""),sizearti[,1])
 
                 if (length(samatch>0)){
-                    se <- pmatch(paste(mix,"_",sizearti[samatch,2],sep=""),ssamples2)
-                    #se <- grep(paste0(mix,"_",sizearti[samatch,2]),ssamples2)
+                    if(genemapper==F) {
+                        se <- pmatch(paste(mix,"_",sizearti[samatch,2],sep=""),ssamples2)
+                    } else {
+                        se <- pmatch(paste(mix,sizearti[samatch,2],sep="."),ssamples2)
+                    }
                     sampremove <- se[!is.na(se)]
 
                     if (length(which(!is.na(sampremove)))>0){
@@ -138,7 +158,6 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
                 }
             }
 
-			#browser()
             defvector <- fsizes[[which.max(lapply(fsizes,length))]]
 
             # extend defvector as needed to maximum/minimum value in fsizes
@@ -188,15 +207,18 @@ create_marker_files <- function(sample_table_file, peak_table_file, markers_file
 
 
             #*** create data directory to store marker files for downstream analysis
-            data_dir <- file.path(pdir,"data",paste0(patient,"-Data"))
-            dir.create(data_dir,recursive=T,showWarnings=F)
+            patient_data_dir <- file.path(data_dir,paste0(patient,"-Data"))
+            dir.create(patient_data_dir,recursive=T,showWarnings=F)
 
-            write.table(heightmat,file.path(data_dir,paste(marker,"_",patient,"_",intensityfilter,".txt",sep="")),sep="\t",quote=F,row.names=F,col.names=as.data.frame(strsplit(colnames(heightmat),paste0(mix,"_")),stringsAsFactors=F)[2,])
+            if(genemapper==F) {
+                write.table(heightmat,file.path(patient_data_dir,paste(marker,"_",patient,"_",intensityfilter,".txt",sep="")),sep="\t",quote=F,row.names=F,col.names=as.data.frame(strsplit(colnames(heightmat),paste0(mix,"_")),stringsAsFactors=F)[2,])
+            } else {
+                write.table(heightmat,file.path(patient_data_dir,paste(marker,"_",patient,"_",intensityfilter,".txt",sep="")),sep="\t",quote=F,row.names=F,col.names=as.data.frame(strsplit(colnames(heightmat),"\\."),stringsAsFactors=F)[2,])
+            }
 
-            #*** create create_marker_file_info directory to store information for troubleshooting
-            create_marker_file_info_dir <- file.path(pdir,"create_marker_file_info")
-            dir.create(create_marker_file_info_dir,showWarnings=F)
-            write.table(data.frame(Sample=ssamples2,Length=unlist(lapply(fsizes,length))),file=file.path(create_marker_file_info_dir,paste(marker,"_",patient,"_",intensityfilter,sep="","_peak_length.txt")),sep="\t",quote=F,row.names=F)
+            ## save information for troubleshooting
+            write.table(data.frame(Sample=ssamples2,Length=unlist(lapply(fsizes,length))),file=file.path(marker_file_info_dir,paste(marker,"_",patient,"_",intensityfilter,sep="","_peak_length.txt")),sep="\t",quote=F,row.names=F)
+
         }
         reslist[[k]] <- patientres
         set <- 1
