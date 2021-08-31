@@ -1,7 +1,6 @@
 ##' distance_distribution_heatmap
 ##' @export
-#distance_distribution_heatmap <- function(filepath,subject_name,repre_replicates,track_lengths,final_marker_names,markers,max_replicate_th,sel_normal_sample,all_normal_samples,sample_names,rob_th,add_info_dir,plot_type='rds') {
-distance_distribution_heatmap <- function(filepath,subject_name,markers,max_replicate_th,sel_normal_sample,all_normal_samples,rob_th,subject_output_list,plot_type='rds') {
+distance_distribution_heatmap <- function(filepath,subject_name,markers,max_replicate_th,sel_normal_sample,all_normal_samples,rob_th,subject_output_list,new_rownames=NA,plot_type='rds') {
     require(gplots)
 
     ### Perform average/UPGMA linkage on the JSM distance matrix and create distrance distribution heatmap 
@@ -129,6 +128,9 @@ distance_distribution_heatmap <- function(filepath,subject_name,markers,max_repl
         dis_distr_df <- as.data.frame(dis_distr)
         colnames(dis_distr_df) <- short_marker_names
         rownames(dis_distr_df) <- sample_names
+
+        ## heatmap with new sample names
+        if(all(!is.na(new_rownames))) rownames(dis_distr_df) <- new_rownames
 
         dis_distr <- data.matrix(dis_distr_df)
         dis_distr <- round(dis_distr,2)
