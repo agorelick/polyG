@@ -1,0 +1,25 @@
+Status,SQ,GQ,Sample File Name,Sample Name,Sample Type,Instrument Model,Plate Id,Well,UD 1,Size Standard,Panel,OS,REF,SQI
+Analyzed,0.9,,Mix1_C57m1b_1.fsa,Mix1_C57m1b_1,Sample,ABI3730,96-Well,C10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m1b_2.fsa,Mix1_C57m1b_2,Sample,ABI3730,96-Well,C02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m1b_3.fsa,Mix1_C57m1b_3,Sample,ABI3730,96-Well,C06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m2_1.fsa,Mix1_C57m2_1,Sample,ABI3730,96-Well,D10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m2_2.fsa,Mix1_C57m2_2,Sample,ABI3730,96-Well,D02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m2_3.fsa,Mix1_C57m2_3,Sample,ABI3730,96-Well,D06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m3_1.fsa,Mix1_C57m3_1,Sample,ABI3730,96-Well,E10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m3_2.fsa,Mix1_C57m3_2,Sample,ABI3730,96-Well,E02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m3_3.fsa,Mix1_C57m3_3,Sample,ABI3730,96-Well,E06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m4_1.fsa,Mix1_C57m4_1,Sample,ABI3730,96-Well,F10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m4_2.fsa,Mix1_C57m4_2,Sample,ABI3730,96-Well,F02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57m4_3.fsa,Mix1_C57m4_3,Sample,ABI3730,96-Well,F06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57N1_1.fsa,Mix1_C57N1_1,Sample,ABI3730,96-Well,B07,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57N1_2.fsa,Mix1_C57N1_2,Sample,ABI3730,96-Well,B11,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57N1_3.fsa,Mix1_C57N1_3,Sample,ABI3730,96-Well,B03,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5a_1.fsa,Mix1_C57p5a_1,Sample,ABI3730,96-Well,G10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5a_2.fsa,Mix1_C57p5a_2,Sample,ABI3730,96-Well,G02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5a_3.fsa,Mix1_C57p5a_3,Sample,ABI3730,96-Well,G06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5b_1.fsa,Mix1_C57p5b_1,Sample,ABI3730,96-Well,H10,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5b_2.fsa,Mix1_C57p5b_2,Sample,ABI3730,96-Well,H02,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p5b_3.fsa,Mix1_C57p5b_3,Sample,ABI3730,96-Well,H06,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p6_1.fsa,Mix1_C57p6_1,Sample,ABI3730,96-Well,A07,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.81,,Mix1_C57p6_2.fsa,Mix1_C57p6_2,Sample,ABI3730,96-Well,A11,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N
+Analyzed,0.9,,Mix1_C57p6_3.fsa,Mix1_C57p6_3,Sample,ABI3730,96-Well,A03,,Peter1 (20190731 C57 Mix1) (20190731 C57 Mix1),None,1,,N

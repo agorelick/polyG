@@ -1,0 +1,8 @@
+data/
+create_marker_file_info/
+results/
+ raw_data/misc/
+*.tmp
+*.swp
+*.pdf
+*.DS_Store

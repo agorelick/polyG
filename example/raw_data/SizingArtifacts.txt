@@ -1,0 +1,4 @@
+Sal2	C57p6_2
+Sal46	C57p6_2
+Sal2	C57p6_3
+Sal46	C57p6_3
