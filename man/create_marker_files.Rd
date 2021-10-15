@@ -11,9 +11,10 @@ create_marker_files(
   mixes_file,
   sizing_artifacts_file = NA,
   pdir = ".",
-  hcut = 0.015,
   thres = 20,
-  intensityfilter = 0.1
+  intensityfilter = 0.1,
+  genemapper = F,
+  overwrite = F
 )
 }
 \description{

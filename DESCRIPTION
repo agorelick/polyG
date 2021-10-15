@@ -15,4 +15,4 @@ Imports:
     dendextend,
     ape,
     phangorn
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

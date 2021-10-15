@@ -16,10 +16,13 @@ sel_rep_replicates_create_dist_matrix <- function(subject_name,sel_normal_sample
     create_dir_check_if_already_exists(allout_dir,overwrite)
     create_dir_check_if_already_exists(output_dir,overwrite)
 
-    ## run for subject, collect output from this process to then generate the distance_distribution_heatmap
+    ## run for subject, collect output from this function
     subject_output_list <- subject(subject_name,pdir,output_dir,sample_exclusion_th,max_replicate_th,sel_normal_sample,all_normal_samples)
     marker_list <- subject_output_list$marker_list
     sample_names <- subject_output_list$sample_names   
+    final_marker_names=subject_output_list$final_marker_names
+    repre_replicates=subject_output_list$repre_replicates
+    raw_dist=subject_output_list$raw_dist
 
     if(!sample_name_change) { 
         ## run with only the single set of sample names
@@ -46,11 +49,12 @@ sel_rep_replicates_create_dist_matrix <- function(subject_name,sel_normal_sample
         }
     }
 
-    #if (length(final_marker_names[["used_markers"]]) > 0) {
-    #    source("polygR/create_distance_matrix.R")
-    #    source("polygR/create_clustermap.R")
-    #} else {
-    #    print("No usable markers available. Clustermap cannot be generated.")
-    #}
+    dm_df <- create_distance_matrix(sample_names=sample_names,final_marker_names=final_marker_names,repre_replicates=repre_replicates,raw_dist=raw_dist)
+    if (length(final_marker_names[["used_markers"]]) > 0) {
+        create_distance_matrix(sample_names,final_marker_names,repre_replicates,raw_dist)
+        create_clustermap(output_dir,subject_name,dm_df,max_replicate_th,sample_names,anno,sample_name_change)
+    } else {
+        print("No usable markers available. Clustermap cannot be generated.")
+    }
 
 }
