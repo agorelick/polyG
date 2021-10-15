@@ -39,17 +39,11 @@ sel_rep_replicates_create_dist_matrix(subject_name='C57',sel_normal_sample='C57N
 # create phylogenetic trees with bootstrap values
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+source('~/lab_repos/polyG_pipeline/R/create_phylogenetic_trees_with_bootstrap_values.R')
+source('~/lab_repos/polyG_pipeline/R/phylogenetic_tree_with_boostrap_sampleNameChange.R')
 
-# put the name of your normal reference sample here
-ref <- sel_normal_sample
+create_phylogenetic_trees_with_bootstrap_values(subject_name='C57',sel_normal_sample='C57N1',all_normal_samples=c('C57N1'),pdir='.',overwrite=T,sample_exclusion_th=0.15,max_replicate_th=0.11,sample_name_change=T,colorfile_header=F)
 
-if (sample_name_change) {  
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_sampleNameChange.R"))
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_sampleNameChange_UPGMA.R"))
-} else {
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap.R"))
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_UPGMA.R"))
-}
 
 
 

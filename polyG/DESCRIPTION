@@ -1,11 +1,11 @@
 Package: polyG
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2021-08-27
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Title: Phylogenetic analysis from poly-guanine genotyping assay
+Version: 0.1
+Date: 2021-10-15
+Author: Naxerova Lab
+Maintainer: Alexander Gorelick <agorelick@mgh.harvard.edu>
+Description: Starting from raw PCR-based poly-G genotyping assay, obtain genetic distance matrices and create phylogenetic trees, along with some additional bells and whistles.
 License: What license is it under?
 Imports:
     phyloseq,
@@ -14,5 +14,7 @@ Imports:
     colorspace,
     dendextend,
     ape,
-    phangorn
+    phangorn,
+    adephylo,
+    ggplot2
 RoxygenNote: 7.1.2
