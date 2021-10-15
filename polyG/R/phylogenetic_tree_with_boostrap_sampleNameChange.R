@@ -237,17 +237,17 @@ phylogenetic_tree_with_boostrap_sampleNameChange <- function(subject_name,pdir,o
         plot.phylo(tree,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
 
-        pdf(paste0("Bootstrapped_Rooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Rooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
         dev.off()
 
-        pdf(paste0("Bootstrapped_Unrooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Unrooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,type="unrooted",cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=.75)
         dev.off()
 
-        pdf(paste0("Unrooted_AllSample_Tree_with","_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Unrooted_AllSample_Tree_with","_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,type="unrooted",cex=0.75)
         dev.off()
 
@@ -255,7 +255,7 @@ phylogenetic_tree_with_boostrap_sampleNameChange <- function(subject_name,pdir,o
         tree2 <- pruneTree(tree,bscut)
         options(warn=0)
 
-        pdf(paste0("Bootstrapped_Rooted_Pruned_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),"_bscut",bscut,ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Rooted_Pruned_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),"_bscut",bscut,ncolor,"_oldnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree2,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree2$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
         dev.off()
@@ -276,17 +276,17 @@ phylogenetic_tree_with_boostrap_sampleNameChange <- function(subject_name,pdir,o
         plot.phylo(tree,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
 
-        pdf(paste0("Bootstrapped_Rooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Rooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
         dev.off()
 
-        pdf(paste0("Bootstrapped_Unrooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Unrooted_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,type="unrooted",cex=0.75)
         nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
         dev.off()
 
-        pdf(paste0("Unrooted_AllSample_Tree_with","_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Unrooted_AllSample_Tree_with","_",tail(strsplit(folder,"\\/")[[1]],n=1),ncolor,"_newnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree,tip.color = colors,font=1,type="unrooted",cex=0.75)
         dev.off()
 
@@ -294,7 +294,7 @@ phylogenetic_tree_with_boostrap_sampleNameChange <- function(subject_name,pdir,o
         tree2 <- pruneTree(tree,bscut)
         options(warn=0)
 
-        pdf(paste0("Bootstrapped_Rooted_Pruned_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),"_bscut",bscut,ncolor,"_newnames_NJ.pdf"),width=9,height=7)
+        pdf(paste0(output_dir,"/Bootstrapped_Rooted_Pruned_AllSample_Tree_",tail(strsplit(folder,"\\/")[[1]],n=1),"_bscut",bscut,ncolor,"_newnames_NJ.pdf"),width=9,height=7)
         plot.phylo(tree2,tip.color = colors,font=1,cex=0.75)
         nodelabels(tree2$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
         dev.off()
