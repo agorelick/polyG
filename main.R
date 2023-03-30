@@ -17,35 +17,6 @@
 ### 7. adjust all relevant parameters (including a "nnormals") above the line with ########
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# add to wiki for installation
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-## install any missing R CRAN packages:
-required.R.packages <- c('here','gplots','RColorBrewer','colorspace')
-new.R.packages <- required.R.packages[!(required.R.packages %in% installed.packages()[,"Package"])]
-if(length(new.R.packages)>0) install.packages(new.R.packages)
-
-## install any missing R Bioconductor packages:
-required.BC.packages <- c('phyloseq','dendextend','ape','phangorn','adephylo')
-new.BC.packages <- required.BC.packages[!(required.BC.packages %in% installed.packages()[,"Package"])]
-if(length(new.BC.packages)>0) {
-    if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-    BiocManager::install(new.BC.packages)
-}
-
-## load required packages
-required.packages <- c(required.R.packages, required.BC.packages)
-for(p in required.packages) library(package=p, character.only=T)
-
-source(here::here('polyG/R/func.R'))
-source(here::here('polyG/R/angular_distance.R'))
-
-#source(here('polyG_pipeline/subject.R'))
-#source(here('polyG_pipeline/angular_distance.R'))
-
-
-
 library(polyG)
 
 # the folder with the input data for this patient cohort
