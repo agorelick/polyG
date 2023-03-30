@@ -5,16 +5,15 @@ Version: 0.1
 Date: 2021-10-15
 Author: Naxerova Lab
 Maintainer: Alexander Gorelick <agorelick@mgh.harvard.edu>
-Description: Starting from raw PCR-based poly-G genotyping assay, obtain genetic distance matrices and create phylogenetic trees, along with some additional bells and whistles.
+Description: Starting from raw PCR-based poly-G genotyping assay, select representative replicates for each marker, generate angular distance matrices, and plot heatmaps and phylogenetic trees.
 License: What license is it under?
-Imports:
-    phyloseq,
+Depends:
     gplots,
     RColorBrewer,
     colorspace,
+    phyloseq,
     dendextend,
     ape,
     phangorn,
-    adephylo,
-    ggplot2
-RoxygenNote: 7.1.2
+    adephylo
+RoxygenNote: 7.2.3
