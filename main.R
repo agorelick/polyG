@@ -1,199 +1,103 @@
-
-
-source('../R/utils.R')
-source('../R/create_marker_files.R')
-source("../R/sel_rep_replicates_create_dist_matrix.R")
-
-## required by sel_rep_replicates_create_dist_matrix.R
-source('../R/subject.R')
-source('../R/distance_distribution_heatmap.R')
-
-## required by subject.R
-source("../R/create_JSM_matrix.R")
-source("../R/select_representative_replicates.R")
-source("../R/get_overlap_scores.R")
-source("../R/create_overview_table_dist_to_normal.R")
-source("../R/distance_distribution_plot.R")
-source("../R/write_distance_matrices.R")
-source("../R/plot_overlap_scores.R")
-
-
-
-
-library(polyG)
-setwd('~/lab_repos/polyG_pipeline/example')
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# create marker files for each poly-G marker in each sample
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-create_marker_files(sample_table_file='raw_data/C57sample_table.csv',peak_table_file='raw_data/C57peak_table.csv',markers_file='raw_data/Markers.txt',mixes_file='raw_data/Mixes.txt',sizing_artifacts_file='raw_data/SizingArtifacts.txt',pdir='.',genemapper=F,overwrite=T)
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# select representative replicates and create distance matrices
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-sel_rep_replicates_create_dist_matrix(subject_name='C57',sel_normal_sample='C57N1',all_normal_samples=c('C57N1'),pdir='.',sample_exclusion_th=0.15,max_replicate_th=0.11,overwrite=T,sample_name_change=T)
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# create phylogenetic trees with bootstrap values
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-source('~/lab_repos/polyG_pipeline/R/create_phylogenetic_trees_with_bootstrap_values.R')
-source('~/lab_repos/polyG_pipeline/R/phylogenetic_tree_with_boostrap_sampleNameChange.R')
-
-create_phylogenetic_trees_with_bootstrap_values(subject_name='C57',sel_normal_sample='C57N1',all_normal_samples=c('C57N1'),pdir='.',overwrite=T,sample_exclusion_th=0.15,max_replicate_th=0.11,sample_name_change=T,colorfile_header=F)
-
-
-
-
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# original polyG main.R 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### This script is used to analyze poly-G data. 
+### This script is used to analyze poly-G data for all patients.
 ### Requires: 
-### 1. polygR folder of R scripts in direcoty "pdir" 
-### 2. for each patient, all sample names in "patient" + "_SampleNames.txt" in directory "pdir/sample_names"
-### 3. for each patient, in directory "wdir":
-###    (a) sample table file in "file_prefix" + "sample_table.csv"
-###    (b) peak table file in "file_prefix" + "peak_table.csv"
-###    (c) marker region definition in "Markers.txt"
-###    (d) mix definition in "Mixes.txt"
-###    (e) "SizingArtifacts.txt" if "sizingartifacts" is TRUE
-### 4. A file in directory "pdir/colorfiles" for tree tip colors with filename of the form of "patient" + "_colorfile.txt" (e.g., E18_colorfile.txt)
-### 5. A file in directory "pdir/AnnotationFiles" with filename of the form of "patient" + "_annotationFile.txt") (e.g., E1_annotationFile.txt) if new sample names would be used in the phylogenetic tree
-###    The annotation files should contain two columns with column names. The first column should be the original sample names and the second column the new sample names.. 
+### 2. for each patient, all marker files in a directory "input_dir/data"
+### 3. for each patient, a column of all sample names in a file named "patient ID" + "_SampleNames.txt" in directory "input_dir/sample_names"
+### 4. A file in directory "input_dir/colorfiles" for tree tip colors with filename of the form of "patient" + "_colorfile.txt" (e.g., E18_colorfile.txt)
+### 5. A file in directory "input_dir/AnnotationFiles" with filename of the form of "patient" + "_annotationFile.txt") (e.g., E1_annotationFile.txt) 
+###    The annotation files should contain two columns with column names. The first column should be the original sample names 
+###      and the second column the final sample names (which can be the same as the original sample names.)
+### 6. data_info.txt which contains:
+###    (a) one patient per row
+###    (b) first column: data_path for a patient, e.g., "E1-Data"
+###    (c) second column: sel_normal_sample (the normal samples used as reference, e.g., "E1N2")
+###    (d) 3rd to (nnormals+1)th columns: list other normal samples used in create_marker_files step, one per column; 
+###         nnormals = maximum number of normal samples among all the patients
+###    (e) additonal columns: list all other samples to exclude for KLM calculation, 
+###            one sample per column (e.g.,"E1H1b" - keep only one sample per lesion)
+### 7. adjust all relevant parameters (including a "nnormals") above the line with ########
 
-# install required packages as needed
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
 
-BiocManager::install("phyloseq")
-BiocManager::install("gplots")
-BiocManager::install("RColorBrewer")
-BiocManager::install("dendextend")
-BiocManager::install("ape")
-BiocManager::install("phangorn")
-BiocManager::install("adephylo")
+## install any missing R CRAN packages:
+required.R.packages <- c('here','gplots','RColorBrewer','colorspace')
+new.R.packages <- required.R.packages[!(required.R.packages %in% installed.packages()[,"Package"])]
+if(length(new.R.packages)>0) install.packages(new.R.packages)
 
-# load the packages
-library(phyloseq)
-library(gplots)
-library(RColorBrewer)
-library(colorspace)
-library(dendextend)
-library(ape)
-library(phangorn)
-
-# the folder containing the entire polygR folder
-# the folder containing the entire polygR folder
-pdir <- "/Users/emma/Dropbox/Naxerova_lab/polyg_analysis_R - EW"
-
-## create marker files from peak table
-wdir <- "/Users/emma/Dropbox/Naxerova_lab/project peritoneal metastases/LEGO MmC1"
-
-# Were the sample table and peak table generated by Genemapper?
-genemapper <- TRUE
-
-# Name of peak and sample files
-file_prefix <- "MmC1"
-
-if (genemapper==TRUE) {
-  source(paste0(pdir,"/polygR/create_marker_files_genemapper.R"))
-} else {
-  source(paste0(pdir,"/polygR/create_marker_files.R"))
+## install any missing R Bioconductor packages:
+required.BC.packages <- c('phyloseq','dendextend','ape','phangorn','adephylo')
+new.BC.packages <- required.BC.packages[!(required.BC.packages %in% installed.packages()[,"Package"])]
+if(length(new.BC.packages)>0) {
+    if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+    BiocManager::install(new.BC.packages)
 }
 
+## load required packages
+required.packages <- c(required.R.packages, required.BC.packages)
+for(p in required.packages) library(package=p, character.only=T)
 
-## select representative replicates and create distance matrices and heatmaps
+## load functions
+source(here('polyG_pipeline/func.R'))
+source(here('polyG_pipeline/subject.R'))
+source(here('polyG_pipeline/angular_distance.R'))
+
+
+# the folder with the input data for this patient cohort
+input_dir <- here("original_data/polyG_lung")
+
+# where the output "results" will go
+results_dir <- here('processed_data/polyG_lung')
+
+# the maximum JS distance allowed between replicates
 max_replicate_th <- 0.11
-
-# a parameter related to insertion/deletion calls
-rob_th <- 0.05
-
-# plot trees during the bootstrapping process if desired
-plot_bootstrpping_tree <- FALSE
-if (plot_bootstrpping_tree) {
-  # number of trees to plot
-  ntrees <- 50
-}
-# plot angular distance trees during the bootstrapping process if desired
-plot_bootstrpping_ad_tree <- FALSE
-# number of ad_trees to plot during bootstrapping if desired
-ntrees_ad <- 50
-
-# colorfile has column names or not? (TRUE if yes, FALSE if no)
-colorfile_header <- TRUE
-
-# samples excluded if no rep. replicates for more than this fraction of markers 
-sample_exclusion_th <- 0.15
-
-# here you can adjust the stringency of the purity exclusion.
-# this will not change the values but only the decision whether to exclude or not
-
-lm_slope_cutoff <- 0.35
-
-# exclude impure samples for KLM? (TRUE if impure samples from "Purity_Estimation_for_polygR_w_distCutoff.R" are to be excluded.)
-pexclude <- FALSE
-
-# bootstrap cutoff below which clades are collapsed (for KLM script)
-bscut <- 50
 
 # plotting heatmaps and trees with different sample names from those in the marker files? 
 sample_name_change <- TRUE
 
-# maximum number of normal samples
-nnormals <- 3
+# bootstrap options
+bootstrap <- F
+bscut <- 50 ## not currrently implemented
 
-# ready for KLM?
-KLM <- FALSE
-
-# ready for KLM for angular distance tree?
-KLM_ad <- FALSE
-
-paper_primary_tumor_label <- "PT"
-paper_normal_sample_label <- "Normal"
-
-# power used for angular distance, original: power = 1
-power <- 1
-
-treetypes <- c("NJ","UPGMA")
-
-# get data for a subject
-
-data_path <- "E1-Data"
-
-source(paste0(pdir,"/polygR/sel_rep_replicates_create_dist_matrix.R"))
+# load the data_info file for this patient
+data_info <- read.table(file.path(input_dir,"data_info.txt"),sep="\t",header=TRUE,stringsAsFactors=FALSE)
 
 
-## create phylogenetic trees with bootstrap values
+#####################
+# for each patient
+for (prow in 1:nrow(data_info)) {
+    set.seed(42) ## reset seed for each patient to enable rerunning for single patients at a time
+ 
+    subject_name <- gsub('-Data','',data_info$data_path[prow])
+    message('Running for ',subject_name)
 
-# put the name of your normal reference sample here
-ref <- sel_normal_sample
+    ## get path, exclusion threshold and selected normal for this patient
+    data_path <- data_info$data_path[prow]
+    sample_exclusion_th <- data_info$sample_exclusion_th[prow]
+    sel_normal_sample <- data_info$sel_normal_sample[prow]
 
-if (sample_name_change) {  
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_sampleNameChange.R"))
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_sampleNameChange_UPGMA.R"))
-} else {
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap.R"))
-  source(paste0(pdir,"/polygR/phylogenetic_tree_with_boostrap_UPGMA.R"))
+    ## get all the normal samples for this patient
+    all_normal_samples <- as.character(data_info[prow,grep('normal_sample',names(data_info))])
+    all_normal_samples <- all_normal_samples[!is.na(all_normal_samples)]
+
+    ## get all excluded samples for this patient
+    all_excluded_samples <- as.character(data_info[prow,grep('samples_to_exclude',names(data_info))])
+    all_excluded_samples <- all_excluded_samples[!is.na(all_excluded_samples)]
+  
+    ## map old/new names 
+    new_sample_names <- read.table(file.path(input_dir,"AnnotationFiles",paste0(subject_name,"_annotationFile.txt")),sep="\t",header=TRUE,stringsAsFactors=FALSE)
+
+    # create output directory
+    allout_dir <- file.path(results_dir,"results",paste("sample_exclusion",sample_exclusion_th,"rep_cut",max_replicate_th,sep="_"))
+    if (!dir.exists(allout_dir)) dir.create(allout_dir,recursive=TRUE,showWarnings=TRUE )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # select representative replicates and create distance matrices
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    subject(input_dir, allout_dir, subject_name, data_path, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
+    
+    ## get angular distance trees
+    angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, bootstrap, bscut)
 }
 
-## purity_estimation
 
-source(paste0(pdir,"/polygR/Purity_Estimation_for_polygR_w_distCutoff.R"))
 
-## get angular distance trees
-#if (sample_name_change) {
-#    anno <- read.table(file.path(pdir,"AnnotationFiles",paste0(subject_name,"_annotationFile.txt")),sep="\t",header=T,stringsAsFactors = F)
-#
-#}
 
-source(paste0(pdir,"/polygR/angular_dist_trees_w_root_allmarkers_averageReplicates_integrated.R"))
-source(paste0(pdir,"/polygR/angular_dist_trees_w_root_usedmarkers_averageReplicates_integrated.R"))
-
-source(paste0(pdir,"/polygR/angular_dist_trees_w_root_allmarkers_representativeReplicates_integrated.R"))
-source(paste0(pdir,"/polygR/angular_dist_trees_w_root_usedmarkers_representativeReplicates_integrated.R"))
