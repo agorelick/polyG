@@ -22,13 +22,8 @@ if(length(new.BC.packages)>0) {
 
 ### Install the polyG package:
 ```r
-# install using the devtools package:
-install.packages('devtools')
-devtools::install_github('https://github.com/agorelick/polyG')
-
-# alternatively, install from this clones GitHub repo:
-install.packages('[PATH TO CLONED REPO]/polyG', type='src', repos=NULL)
+# Clone this GitHub repo. Then in R, run:
+install.packages('[PATH TO CLONED REPO]/polyG/pkg', type='src', repos=NULL)
 ```
-
 
 ## Running poly-G pipeline
