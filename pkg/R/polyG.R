@@ -3,7 +3,7 @@
 ##' Main script to process polyG data, from raw data input to angular distance data.
 ##' 
 ##' @export 
-polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, bootstrap, bscut, seed=NA) {  
+polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, bootstrap, bscut, bsreps, seed=NA) {  
 
     # load the data_info file for this patient
     data_info <- read.table(file.path(input_dir,"data_info.txt"),sep="\t",header=TRUE,stringsAsFactors=FALSE)
@@ -39,7 +39,7 @@ polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, 
         subject(input_dir, allout_dir, subject_name, data_path, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
 
         ## generate angular distance matrices, heatmaps, trees, and optionally bootstrapped trees
-        angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, bootstrap, bscut)
+        angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, bootstrap, bscut, bsreps)
     }
 }
 
