@@ -116,7 +116,7 @@ angular_distance <- function(input_dir, allout_dir, subject_name, sel_normal_sam
         cat(paste0(subject_name," ",markergroup," ",replicate," has fewer than 2 samples available. No angular distance tree will be produced. \n"))
         write(paste0(subject_name," ",markergroup," ",replicate," has fewer than 2 samples available. No angular distance tree will be produced. \n"),file=file.path(ad_tree_w_root_dir,paste0(subject_name,"_",markergroup,"_",replicate,"_error.txt")))
     } else {
-        generate_angular_distance_trees(angular_dist_w_root, sel_normal_sample, colorfile, sample_name_change, ad_tree_w_root_dir, markerset, usedsamps, ns, power, new_sample_names, meanlen_diff_normal, bootstrap, bscut, bsreps, subject_name, markergroup, replicate)  
+        generate_angular_distance_trees(angular_dist_w_root, sel_normal_sample, colorfile, sample_name_change, ad_tree_w_root_dir, markerset, usedsamps, ns, power, new_sample_names, meanlen_diff_normal, bootstrap, bscut, bsreps, subject_name, markergroup, replicate, ad_matrix_w_root_dir)
     }
 }
 

@@ -385,7 +385,7 @@ angular_distance_heatmap <- function(filepath_old,filepath_new,table_filepath_ol
 ##' build a tree with the angular distance 
 ##'
 ##' @export
-generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_sample, colorfile, sample_name_change, ad_tree_w_root_dir, markerset, usedsamps, ns, power, new_sample_names, meanlen_diff_normal, bootstrap, bscut, bsreps, subject_name, markergroup, replicate, tree_type='NJ') { 
+generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_sample, colorfile, sample_name_change, ad_tree_w_root_dir, markerset, usedsamps, ns, power, new_sample_names, meanlen_diff_normal, bootstrap, bscut, bsreps, subject_name, markergroup, replicate, ad_matrix_w_root_dir, tree_type='NJ') {
 
     phylotree <- nj(as.dist(angular_dist_w_root))
     refind <- which(rownames(angular_dist_w_root)==sel_normal_sample)
@@ -418,7 +418,7 @@ generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_samp
         bsmatrices=list()
 
         for (i in 1:bsreps){
-            message(i)
+            if(i %% 100 == 0) message('Completed ',i,'/',bsreps,' bootstrap replicates.')
             sample_markers <- sample(markerset,length(markerset),replace=TRUE)
             bs_Z <- Zij(usedsamps,sample_markers,meanlen_diff_normal)
             bs_angular_dist_w_root <- ang_dist_matrix(bs_Z,usedsamps,ns,sample_markers,sel_normal_sample,power)
@@ -444,7 +444,7 @@ generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_samp
         class(bstrees_newnames) <- "multiPhylo"
         bstrees_file <- file.path(ad_tree_w_root_dir,paste0(subject_name,"_Bootstrapped_unrooted_angular_distance_tree_newnames_",markergroup,"_",replicate,"_",tree_type,"_bstrees.rds"))
         saveRDS(bstrees_newnames,file=bstrees_file)
-        bsmatrices_file <- file.path(ad_tree_w_root_dir,paste0(subject_name,"_Bootstrapped_unrooted_angular_distance_matrices_newnames_",markergroup,"_",replicate,"_bsmatrices.rds"))
+        bsmatrices_file <- file.path(ad_matrix_w_root_dir,paste0(subject_name,"_Bootstrapped_unrooted_angular_distance_matrices_newnames_",markergroup,"_",replicate,"_bsmatrices.rds"))
         saveRDS(bsmatrices,file=bsmatrices_file)
 
         ## plot trees with bootstrap values and old sample names
