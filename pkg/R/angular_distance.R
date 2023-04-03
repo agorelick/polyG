@@ -3,7 +3,7 @@
 ##' Generate angular distance matrices, heatmaps, and trees. Optionally generate bootstrapped data.
 ##'
 ##' @export
-angular_distance <- function(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, bootstrap, bscut, bsreps) { 
+angular_distance <- function(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, sample_name_change, bootstrap, bscut, bsreps) { 
 
     # hardcoded parameters
     markergroup <- "usedmarkers"

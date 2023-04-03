@@ -10,7 +10,7 @@ polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, 
 
     # process to run for each patient
     for (prow in 1:nrow(data_info)) {
-        if(!is.na(seed)) set.seed(42) ## reset seed for each patient to enable rerunning for single patients at a time
+        if(!is.na(seed)) set.seed(seed) ## reset seed for each patient to enable rerunning for single patients at a time
 
         subject_name <- gsub('-Data','',data_info$data_path[prow])
         message('Running for ',subject_name)
@@ -36,10 +36,10 @@ polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, 
         if (!dir.exists(allout_dir)) dir.create(allout_dir,recursive=TRUE,showWarnings=TRUE )
 
         # select representative replicates and create distance matrices
-        subject(input_dir, allout_dir, subject_name, data_path, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
+        subject(input_dir, allout_dir, subject_name, data_path, max_replicate_th, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
 
         ## generate angular distance matrices, heatmaps, trees, and optionally bootstrapped trees
-        angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, bootstrap, bscut, bsreps)
+        angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, sample_name_change, bootstrap, bscut, bsreps)
     }
 }
 

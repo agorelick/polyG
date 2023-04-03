@@ -3,7 +3,7 @@
 ##' Process the raw poly-G marker data for this subject. Results will be used to in angular_distance() function.
 ##'
 ##' @export
-subject <- function(input_dir, allout_dir, subject_name, data_path, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) { 
+subject <- function(input_dir, allout_dir, subject_name, data_path, max_replicate_th, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) { 
 
     ## raw input data file for each marker
     data_files <- dir(file.path(input_dir,"data",data_path), full.names=T)
