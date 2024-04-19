@@ -1,8 +1,0 @@
-C57m1b	blue
-C57m2	blue
-C57m3	blue
-C57m4	blue
-C57N1	darkgreen
-C57P5a	darkorange
-C57P5b	darkorange
-C57P6	darkorange

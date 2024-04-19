@@ -1,0 +1,12 @@
+Sample_ID	Real_Sample_ID
+C36-1-A	Normal1
+C36-1-B	PT1
+C36-1-C	Normal2
+C36-1-E	PT2
+C36-1-F	PT3
+C36-1-G1	LN1
+C36-1-G2	LN2
+C36-1-H	LN3
+C36-1-I	LN4
+C36-3-A	Liv1
+C36-3-B	Liv2

@@ -1,9 +1,0 @@
-old_name	new_name
-C57m1b	C57m1b_new
-C57m2	C57m2_new
-C57m3	C57m3_new
-C57m4	C57m4_new
-C57N1	C57N1_new
-C57p5a	C57p5a_new
-C57p5b	C57p5b_new
-C57p6	C57p6_new

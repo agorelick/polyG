@@ -1,0 +1,16 @@
+sample	tissue_type
+C31-C	darkorange
+C31-D	darkorange
+C31-E	darkorange
+C31-F	darkorange
+C31-L	red
+C31-M	red
+C31-P	red
+C31-Q	red
+C31-R	red
+C31-S	red
+C31-T	red
+C31-U	red
+C31-W	darkblue
+C31-X	darkblue
+C31-Y	darkgreen
