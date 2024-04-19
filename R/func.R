@@ -444,7 +444,7 @@ generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_samp
         class(bstrees_newnames) <- "multiPhylo"
         bstrees_file <- file.path(ad_tree_w_root_dir,paste0(subject_name,"_Bootstrapped_unrooted_angular_distance_tree_newnames_",markergroup,"_",replicate,"_",tree_type,"_bstrees.rds"))
         saveRDS(bstrees_newnames,file=bstrees_file)
-        bsmatrices_file <- file.path(ad_matrix_w_root_dir,paste0(subject_name,"_Bootstrapped_unrooted_angular_distance_matrices_newnames_",markergroup,"_",replicate,"_bsmatrices.rds"))
+        bsmatrices_file <- file.path(ad_matrix_w_root_dir,paste0(subject_name,"_angular_dist_matrix_w_root_",markergroup,"_",replicate,"_newnames_bsmatrices.rds"))
         saveRDS(bsmatrices,file=bsmatrices_file)
 
         ## plot trees with bootstrap values and old sample names

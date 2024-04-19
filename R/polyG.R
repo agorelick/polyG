@@ -3,7 +3,7 @@
 ##' Main script to process polyG data, from raw data input to angular distance data.
 ##' 
 ##' @export 
-polyG <- function(input_dir, results_dir, max_replicate_th, sample_name_change, bootstrap, bscut, bsreps, seed=NA) {  
+polyG <- function(input_dir, results_dir, max_replicate_th=0.11, sample_name_change=T, bootstrap=T, bscut=50, bsreps=1000, seed=NA) {  
 
     # load the data_info file for this patient
     data_info <- read.table(file.path(input_dir,"data_info.txt"),sep="\t",header=TRUE,stringsAsFactors=FALSE)
