@@ -1,4 +1,0 @@
-Nax15	Mix1	G
-Sal26	Mix1	B
-Sal57	Mix1	B
-Sal2	Mix1	Y

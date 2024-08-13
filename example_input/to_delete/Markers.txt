@@ -1,5 +1,0 @@
-	C57
-Sal2.Begin	111.03
-Sal2.End	115.99
-Sal57.Begin	197.96
-Sal57.End	203.96
