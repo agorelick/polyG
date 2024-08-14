@@ -1,9 +1,12 @@
 # polyG
 
-## Installation
+## Overview
 
+This GitHub repo contains the _polyG_ R package, which implements the pipeline used to process raw polyguanine genotype data as described in _Wassenaar, Gorelick, et al. 2024_. The instructions described below can additionally be used to process new polyguanine genotype data, provided the input files is identically prepared. For analyses and data related to  _Wassenaar, Gorelick, et al. 2024_, please see the accompanying GitHub repo: https://github.com/agorelick/peritoneal_metastasis. 
 
-### Install prerequsite R packages
+## 1. Installation
+
+### 1.1 Install prerequsite R packages
 ```r
 # Install missing R packages from CRAN:
 required.R.packages <- c('here','gplots','RColorBrewer','colorspace')
@@ -19,7 +22,7 @@ if(length(new.BC.packages)>0) {
 }
 ```
 
-### Install the polyG package:
+### 1.2 Install the polyG package:
 
 Option 1: Clone this GitHub repo. Then in R, run:
 ```r
@@ -31,7 +34,7 @@ Option 2: use the **devtools** package to install it directly from GitHub:
 devtools::install_github('agorelick/polyG')
 ```
 
-## Run the poly-G pipeline on the provided example data:
+## 2. Run the poly-G pipeline on the provided example data:
 
 This pipeline is used to analyze poly-G data for all patients.
 The following input data are required (for examples, see the files in the "example_input/" directory): 
