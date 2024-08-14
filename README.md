@@ -20,20 +20,21 @@ if(length(new.BC.packages)>0) {
 ```
 
 ### Install the polyG package:
+
+Option 1: Clone this GitHub repo. Then in R, run:
 ```r
-# Clone this GitHub repo. Then in R, run:
 install.packages('[PATH TO CLONED REPO]/polyG/pkg', type='src', repos=NULL)
 ```
 
-Or use the **devtools** package to install it directly from GitHub:
+Option 2: use the **devtools** package to install it directly from GitHub:
 ```r
 devtools::install_github('agorelick/polyG')
 ```
 
 ## Run the poly-G pipeline on the provided example data:
 
-This script is used to analyze poly-G data for all patients.
-Required input data (for examples, see the files in the "example_input/" directory): 
+This pipeline is used to analyze poly-G data for all patients.
+The following input data are required (for examples, see the files in the "example_input/" directory): 
 
 1. For each patient, all marker files in a directory (e.g., "example_input/data")
 2. For each patient, a file with sample names (corresponding the sample names provided in the raw marker files data) to be used for each patient; samples not listed will be excluded from analysis (e.g., "example_input/C12_SampleNames.txt")
