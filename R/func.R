@@ -446,18 +446,19 @@ generate_angular_distance_trees <- function(angular_dist_w_root, sel_normal_samp
         saveRDS(bstrees_newnames,file=bstrees_file)
         bsmatrices_file <- file.path(ad_matrix_w_root_dir,paste0(subject_name,"_angular_dist_matrix_w_root_",markergroup,"_",replicate,"_newnames_bsmatrices.rds"))
         saveRDS(bsmatrices,file=bsmatrices_file)
-
+        
         ## plot trees with bootstrap values and old sample names
         class(bstrees) <- "multiPhylo"
         par(mar=c(1.1,1.1,1.1,1.1))
 
+        
         # add some nice colors to the tip labels
         ncolor <- ""
         for (k in 2:ncol(colorfile)) {
             colors <- colorfile[pmatch(phylotree$tip.label,colorfile[,1]),k]
             ncolor <- paste0("-",colnames(colorfile)[k])
-            tree <- plotBS(phylotree,bstrees,type="phylogram",p=1)
-            bsvalues <- round(tree$node.label,digits=0)
+            tree <- plotBS(phylotree,bstrees,type="phylogram",p=0)
+            bsvalues <- round(tree$node.label,digits=2)
             tree$node.label <- bsvalues
             plot.phylo(tree,tip.color = colors,font=1,cex=0.75)
             nodelabels(tree$node.label,frame="none",adj = c(1, 1.1),cex=0.75)
