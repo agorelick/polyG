@@ -7,10 +7,11 @@
 polyG(
   input_dir,
   results_dir,
-  max_replicate_th,
-  sample_name_change,
-  bootstrap,
-  bscut,
+  max_replicate_th = 0.11,
+  sample_name_change = T,
+  bootstrap = T,
+  bscut = 50,
+  bsreps = 1000,
   seed = NA
 )
 }

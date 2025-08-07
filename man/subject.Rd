@@ -9,6 +9,7 @@ subject(
   allout_dir,
   subject_name,
   data_path,
+  max_replicate_th,
   sample_exclusion_th,
   sel_normal_sample,
   all_normal_samples,

@@ -11,8 +11,10 @@ angular_distance(
   sel_normal_sample,
   all_normal_samples,
   new_sample_names,
+  sample_name_change,
   bootstrap,
-  bscut
+  bscut,
+  bsreps
 )
 }
 \description{

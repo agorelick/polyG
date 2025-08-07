@@ -18,9 +18,11 @@ generate_angular_distance_trees(
   meanlen_diff_normal,
   bootstrap,
   bscut,
+  bsreps,
   subject_name,
   markergroup,
   replicate,
+  ad_matrix_w_root_dir,
   tree_type = "NJ"
 )
 }

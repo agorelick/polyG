@@ -1,12 +1,12 @@
 Package: polyG
 Type: Package
 Title: Phylogenetic analysis from poly-guanine genotyping assay
-Version: 0.1
-Date: 2021-10-15
+Version: 0.2
+Date: 2025-08-07
 Author: Naxerova Lab
-Maintainer: Alexander Gorelick <agorelick@mgh.harvard.edu>
+Maintainer: Alexander Gorelick <alexander_gorelick@hms.harvard.edu>
 Description: Starting from raw PCR-based poly-G genotyping assay, select representative replicates for each marker, generate angular distance matrices, and plot heatmaps and phylogenetic trees.
-License: What license is it under?
+License: MIT
 Depends:
     gplots,
     RColorBrewer,
@@ -16,4 +16,4 @@ Depends:
     ape,
     phangorn,
     adephylo
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

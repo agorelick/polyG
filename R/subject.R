@@ -256,6 +256,8 @@ subject <- function(input_dir, allout_dir, subject_name, data_path, max_replicat
         write(paste0(markers,": ",final_marker_names[[markers]]),file=marker_name_file,append=TRUE)
     }
 
+    output_list <- list(output_dir=output_dir, repre_replicates=repre_replicates, final_marker_names=final_marker_names, raw_dist=raw_dist)
+    return(output_list)
 }
 
 

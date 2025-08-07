@@ -35,11 +35,30 @@ polyG <- function(input_dir, results_dir, max_replicate_th=0.11, sample_name_cha
         allout_dir <- file.path(results_dir,"results",paste("sample_exclusion",sample_exclusion_th,"rep_cut",max_replicate_th,sep="_"))
         if (!dir.exists(allout_dir)) dir.create(allout_dir,recursive=TRUE,showWarnings=TRUE )
 
-        # select representative replicates and create distance matrices
-        subject(input_dir, allout_dir, subject_name, data_path, max_replicate_th, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
+        # select representative replicates and create distance matrices, return final_marker_names including both the all_markers and used_markers versions; return other subject-level outputs
+        subject_output <- subject(input_dir, allout_dir, subject_name, data_path, max_replicate_th, sample_exclusion_th, sel_normal_sample, all_normal_samples, new_sample_names) 
+        final_marker_names <- subject_output$final_marker_names
+        repre_replicates <- subject_output$repre_replicates
+        output_dir <- subject_output$output_dir
+        raw_dist <- subject_output$raw_dist
 
-        ## generate angular distance matrices, heatmaps, trees, and optionally bootstrapped trees
-        angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, sample_name_change, bootstrap, bscut, bsreps)
+
+        if (length(final_marker_names[["used_markers"]]) > 0) {
+
+            # create JSD matrix for samples using the representative replicates and new sample names
+            dm_df <- create_distrance_matrix(new_sample_names,final_marker_names,repre_replicates,raw_dist)
+
+            # create heatmap of JSD matrices
+            source("create_clustermap.R") # add to repo
+            create_clustermap(output_dir,subject_name,dm_df,max_replicate_th,new_sample_names)
+
+            ## create generate angular distance matrices, heatmaps, trees, and optionally bootstrapped trees
+            angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, new_sample_names, sample_name_change, bootstrap, bscut, bsreps)
+
+        } else {
+            message("No usable markers available!")
+        }
+
     }
 }
 
