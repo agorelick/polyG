@@ -24,7 +24,6 @@ write_distance_matrix <- function(filepath,dm_df) {
 ##'
 ##' Calculate Jensen-Shannon distance for each pair of samples of the given marker and creates a matrix with the pairwise distances norm_df: normalized probability distributions of the input polyg data. Returns: Jensen-Shannon distance matrix
 ##' 
-##' @author Alexander Gorelick <agorelick@mgh.harvard.edu>
 ##' @export
 create_JSM_matrix <- function(norm_df) {
     jsm_df <- as.matrix(sqrt((distance(otu_table(norm_df,taxa_are_rows = TRUE),"jsd"))/log(2)))
@@ -38,6 +37,7 @@ create_JSM_matrix <- function(norm_df) {
 ##' 
 ##' Create JSM distance matrix for representative replicate. Only markers with no missing samples are used. (Deprecated?)
 ##' 
+##' @export
 create_distance_matrix <- function(sample_names,final_marker_names,repre_replicates,raw_dist) {
     n <- length(sample_names)
     dm <- matrix(0, nrow = n, ncol = n)

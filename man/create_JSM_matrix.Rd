@@ -9,6 +9,3 @@ create_JSM_matrix(norm_df)
 \description{
 Calculate Jensen-Shannon distance for each pair of samples of the given marker and creates a matrix with the pairwise distances norm_df: normalized probability distributions of the input polyg data. Returns: Jensen-Shannon distance matrix
 }
-\author{
-Alexander Gorelick <agorelick@mgh.harvard.edu>
-}

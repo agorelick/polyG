@@ -3,7 +3,7 @@
 ##' Perform hierarchical clustering on the normalized JSM distance matrix and create the clustermap
 ##'
 ##' @export
-create_clustermap <- function(output_dir,subject_name,dm_df,max_replicate_th,sample_names) {
+create_clustermap <- function(output_dir,subject_name,dm_df,max_replicate_th,sample_names,sample_name_change=T) {
     require(gplots)
     require(RColorBrewer)
     require(colorspace)
@@ -17,7 +17,7 @@ create_clustermap <- function(output_dir,subject_name,dm_df,max_replicate_th,sam
     dm_round <- round(dm,2)
 
     color <- colorRampPalette(c("white", "rosybrown2", "violetred4"))
-
+    
     if (!sample_name_change) {
         cm_filepath = get_output_filepath(subject_name,"clustermap",".pdf",output_dir,max_replicate_th)
         pdf(cm_filepath,pointsize = 7)

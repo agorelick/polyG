@@ -9,7 +9,8 @@ create_clustermap(
   subject_name,
   dm_df,
   max_replicate_th,
-  sample_names
+  sample_names,
+  sample_name_change = T
 )
 }
 \description{

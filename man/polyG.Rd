@@ -12,6 +12,7 @@ polyG(
   bootstrap = T,
   bscut = 50,
   bsreps = 1000,
+  rob_th = 0.05,
   seed = NA
 )
 }
