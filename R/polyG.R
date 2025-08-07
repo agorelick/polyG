@@ -46,7 +46,10 @@ polyG <- function(input_dir, results_dir, max_replicate_th=0.11, sample_name_cha
         sample_names <- sample_names_map$Sample_ID
         marker_list <- subject_output$marker_list
         track_lengths <- subject_output$track_lengths
-    
+        sample_names <- subject_output$sample_names
+        excluded_samples <- subject_output$excluded_samples
+        sample_names_map <- sample_names_map[sample_names_map$Sample_ID %in% sample_names,]
+        
         if (length(final_marker_names[["used_markers"]]) > 0) {
 
             # create JSD matrix for samples using the representative replicates and new sample names
@@ -59,12 +62,15 @@ polyG <- function(input_dir, results_dir, max_replicate_th=0.11, sample_name_cha
             # needs:
             # - rob_th
             new_rownames <- sample_names_map$Real_Sample_ID
-            markers <- 'used_markers'
-            #for (markers in marker_list) {
-            ddh_fp_old <- get_output_filepath(subject_name,"heatmap",paste0("_",markers,"_oldnames.pdf"),output_dir,max_replicate_th)
-            ddh_fp_new <- get_output_filepath(subject_name,"heatmap",paste0("_",markers,"_newnames.pdf"),output_dir,max_replicate_th)
-            distance_distribution_heatmap(ddh_fp_old,ddh_fp_new,subject_name,repre_replicates,track_lengths,final_marker_names,markers,max_replicate_th,sel_normal_sample,all_normal_samples,sample_names,new_rownames,rob_th,add_info_dir,raw_dist)
-            #}
+            #markers <- 'used_markers'
+            
+            for (markers in marker_list) {
+                ddh_fp_old <- get_output_filepath(subject_name,"heatmap",paste0("_",markers,"_oldnames.pdf"),output_dir,max_replicate_th)
+                ddh_fp_new <- get_output_filepath(subject_name,"heatmap",paste0("_",markers,"_newnames.pdf"),output_dir,max_replicate_th)
+                distance_distribution_heatmap(ddh_fp_old,ddh_fp_new,subject_name,repre_replicates,track_lengths,
+                                              final_marker_names,markers,max_replicate_th,sel_normal_sample,
+                                              all_normal_samples,sample_names,new_rownames,rob_th,add_info_dir,raw_dist)
+            }
             
             ## create generate angular distance matrices, heatmaps, trees, and optionally bootstrapped trees
             angular_distance(input_dir, allout_dir, subject_name, sel_normal_sample, all_normal_samples, sample_names_map, sample_name_change, bootstrap, bscut, bsreps)

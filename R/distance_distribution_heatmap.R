@@ -114,9 +114,15 @@ distance_distribution_heatmap <- function(filepath_old,filepath_new,subject_name
     colnames(dis_distr_df) <- short_marker_names
     rownames(dis_distr_df) <- sample_names
     #rownames(dis_distr_df) <- new_rownames
-    
+
+           
     dis_distr <- data.matrix(dis_distr_df)
     dis_distr <- round(dis_distr,2)
+
+     ## Alex added removal of samples with entirely NA values
+    #bad_samples <- rowMeans(is.na(dis_distr)) == 1
+    #if(sum(bad_samples) > 0) dis_distr <- dis_distr[bad_samples==F,]
+    
     color <- colorRampPalette(c("seagreen", "white", "purple3"))
     
     pdf(filepath_old,width=10,height=7,pointsize = 9)
@@ -153,6 +159,10 @@ distance_distribution_heatmap <- function(filepath_old,filepath_new,subject_name
     dis_distr <- data.matrix(dis_distr_df)
     dis_distr <- round(dis_distr,2)
     color <- colorRampPalette(c("seagreen", "white", "purple3"))
+ 
+    ## Alex added removal of samples with entirely NA values
+    #bad_samples <- rowMeans(is.na(dis_distr)) == 1
+    #if(sum(bad_samples) > 0) dis_distr <- dis_distr[bad_samples==F,]
     
     pdf(filepath_new,width=10,height=7,pointsize = 9)
     par(mar=c(10,4,4,2))
