@@ -1,3 +1,4 @@
 data_path	sample_exclusion_th	sel_normal_sample	other_normal_sample_1	other_normal_sample_2	other_samples_to_exclude_1	other_samples_to_exclude_2	other_samples_to_exclude_3	other_samples_to_exclude_4	other_samples_to_exclude_5	other_samples_to_exclude_6	other_samples_to_exclude_7
+C12-Data	0.3	C12-A	C12-Y-C1	NA	NA	NA	NA	NA	NA	NA	NA
 C31-Data	0.3	C31-Y	NA	NA	C31-M	C31-P	C31-Q	C31-R	C31-S	C31-T	C31-U
 C36-Data	0.3	C36-1-A	C36-1-C	NA	NA	NA	NA	NA	NA	NA	NA
